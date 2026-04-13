@@ -12,10 +12,20 @@
       "Bash(git -C /Users/jordan/Personal/repos/clarity-health diff)",
       "Bash(git -C /Users/jordan/Personal/repos/clarity-health log --oneline -3)",
       "Bash(git commit -m ':*)",
-      "Bash(git -C /Users/jordan/Personal/repos/clarity-health push)"
+      "Bash(git -C /Users/jordan/Personal/repos/clarity-health push)",
+      "Bash(npx playwright:*)",
+      "Bash(node -e ':*)",
+      "Bash(PLAYWRIGHT_BROWSERS_PATH=/Users/jordan/Library/Caches/ms-playwright npx playwright@1.59.1 screenshot --browser chromium \"https://clarity-health-jball23s-projects.vercel.app/\" /tmp/vercel-team.png)",
+      "Bash(PLAYWRIGHT_BROWSERS_PATH=/Users/jordan/Library/Caches/ms-playwright npx playwright@1.59.1 screenshot --browser chromium \"https://clarity-health-eosin.vercel.app/\" /tmp/vercel-eosin.png)",
+      "Read(//tmp/**)",
+      "Read(//private/tmp/**)",
+      "Bash(grep --line-buffered -v \"^$\")",
+      "Bash(npx next:*)"
     ],
     "additionalDirectories": [
-      "/Users/jordan/Personal/repos/clarity-health/app/[[...catchall]]"
+      "/Users/jordan/Personal/repos/clarity-health/app/[[...catchall]]",
+      "/Users/jordan/Personal/repos/clarity-health/app/(main)/blog",
+      "/Users/jordan/Personal/repos/clarity-health/app/blog/[slug]"
     ]
   }
 }
