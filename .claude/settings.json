@@ -20,12 +20,17 @@
       "Read(//tmp/**)",
       "Read(//private/tmp/**)",
       "Bash(grep --line-buffered -v \"^$\")",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(find /Users/jordan/Personal/repos/clarity-health/node_modules/@plasmicapp -name \"*.md\" -exec grep -l \"host\\\\|canvas\" {} \\\\;)",
+      "Bash(xargs cat:*)",
+      "Bash(python3 -m json.tool)"
     ],
     "additionalDirectories": [
       "/Users/jordan/Personal/repos/clarity-health/app/[[...catchall]]",
       "/Users/jordan/Personal/repos/clarity-health/app/(main)/blog",
-      "/Users/jordan/Personal/repos/clarity-health/app/blog/[slug]"
+      "/Users/jordan/Personal/repos/clarity-health/app/blog/[slug]",
+      "/Users/jordan/Personal/repos/clarity-health/app/(main)",
+      "/Users/jordan/Personal/repos/clarity-health/app/[...catchall]"
     ]
   }
 }
