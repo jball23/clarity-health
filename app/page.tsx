@@ -1,65 +1,95 @@
-import Image from "next/image";
+import { AnimatedSection } from '@/components/code-components/AnimatedSection'
+import { FAQAccordion } from '@/components/code-components/FAQAccordion'
+import { HeroSection } from '@/components/code-components/HeroSection'
+import { ProgramsGrid } from '@/components/code-components/ProgramCard'
+import { StatsCounter } from '@/components/code-components/StatsCounter'
+import { TeamGrid } from '@/components/code-components/TeamGrid'
+import { TestimonialCarousel } from '@/components/code-components/TestimonialCarousel'
+import { sanityFetch } from '@/sanity/lib/live'
+import {
+  allProgramsQuery,
+  faqByCategoryQuery,
+  featuredTeamQuery,
+  featuredTestimonialsQuery,
+} from '@/sanity/lib/queries'
+import type { SanityFAQItem, SanityProgram, SanityTeamMember, SanityTestimonial } from '@/sanity/lib/types'
 
-export default function Home() {
+export default async function HomePage() {
+  const [programs, team, testimonials, faqs] = await Promise.all([
+    sanityFetch<SanityProgram[]>({ query: allProgramsQuery }),
+    sanityFetch<SanityTeamMember[]>({ query: featuredTeamQuery }),
+    sanityFetch<SanityTestimonial[]>({ query: featuredTestimonialsQuery }),
+    sanityFetch<SanityFAQItem[]>({ query: faqByCategoryQuery, params: { category: '' } }),
+  ])
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <HeroSection />
+
+      <StatsCounter />
+
+      {/* Programs section */}
+      <div className="bg-white">
+        <AnimatedSection className="mx-auto max-w-6xl px-6 pt-20 text-center">
+          <span className="text-sm font-semibold uppercase tracking-widest text-[#007F79]">
+            What We Treat
+          </span>
+          <h2 className="mt-2 text-3xl font-bold text-gray-900 md:text-4xl">
+            Evidence-based programs for lasting recovery
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-lg text-gray-500">
+            Every program is delivered by licensed clinicians and tailored to your specific needs.
           </p>
+        </AnimatedSection>
+        <ProgramsGrid programs={programs.data ?? []} />
+      </div>
+
+      {/* Testimonials */}
+      {(testimonials.data?.length ?? 0) > 0 && (
+        <TestimonialCarousel testimonials={testimonials.data ?? []} />
+      )}
+
+      {/* Team section */}
+      {(team.data?.length ?? 0) > 0 && (
+        <div className="bg-[#F9FAFB]">
+          <TeamGrid members={team.data ?? []} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      )}
+
+      {/* How it works */}
+      <section className="mx-auto max-w-5xl px-6 py-20">
+        <AnimatedSection className="text-center">
+          <span className="text-sm font-semibold uppercase tracking-widest text-[#007F79]">
+            The Process
+          </span>
+          <h2 className="mt-2 text-3xl font-bold text-gray-900">
+            Get started in three simple steps
+          </h2>
+        </AnimatedSection>
+
+        <div className="mt-14 grid gap-8 md:grid-cols-3">
+          {[
+            { step: '01', title: 'Complete your assessment', desc: 'Tell us about yourself and your goals in a brief 10-minute intake.' },
+            { step: '02', title: 'Meet your care team', desc: 'Get matched with a licensed therapist and care coordinator within 48 hours.' },
+            { step: '03', title: 'Begin your journey', desc: 'Attend sessions from home, track progress, and access 24/7 support.' },
+          ].map(({ step, title, desc }, i) => (
+            <AnimatedSection key={step} delay={i * 0.1}>
+              <div className="relative rounded-2xl border border-gray-100 bg-white p-7 shadow-sm">
+                <span className="text-5xl font-black text-[#007F79]/10">{step}</span>
+                <h3 className="mt-3 text-lg font-semibold text-gray-900">{title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-gray-500">{desc}</p>
+              </div>
+            </AnimatedSection>
+          ))}
         </div>
-      </main>
-    </div>
-  );
+      </section>
+
+      {/* FAQ */}
+      {(faqs.data?.length ?? 0) > 0 && (
+        <div className="bg-[#F0FAFA]">
+          <FAQAccordion faqs={faqs.data ?? []} />
+        </div>
+      )}
+    </>
+  )
 }
