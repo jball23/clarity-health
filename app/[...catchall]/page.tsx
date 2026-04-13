@@ -13,20 +13,19 @@ import { PlasmicPage } from './plasmic-page'
 export const revalidate = 60
 
 interface CatchallProps {
-  params: Promise<{ catchall?: string[] }>
+  params: Promise<{ catchall: string[] }>
 }
 
 export async function generateStaticParams() {
   const pages = await PLASMIC.fetchPages()
-  return pages.map((p) => ({ catchall: p.path.split('/').filter(Boolean) }))
+  return pages
+    .filter((p) => p.path !== '/')
+    .map((p) => ({ catchall: p.path.split('/').filter(Boolean) }))
 }
 
 export default async function CatchallPage({ params }: CatchallProps) {
   const { catchall } = await params
-  const plasmicPath = '/' + (catchall?.join('/') ?? '')
-
-  // Skip root path — handled by app/page.tsx
-  if (plasmicPath === '/') notFound()
+  const plasmicPath = '/' + catchall.join('/')
 
   const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath)
   if (!plasmicData) notFound()

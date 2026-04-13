@@ -1,3 +1,5 @@
+'use client'
+
 import { initPlasmicLoader } from '@plasmicapp/loader-nextjs'
 import { AnimatedSection } from './components/code-components/AnimatedSection'
 import { FAQAccordion } from './components/code-components/FAQAccordion'
