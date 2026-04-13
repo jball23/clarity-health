@@ -9,6 +9,20 @@ const nextConfig: NextConfig = {
   },
   // Required for embedded Sanity Studio
   transpilePackages: ['next-sanity'],
+  async headers() {
+    return [
+      {
+        // Allow Plasmic Studio to embed the host page in an iframe
+        source: '/plasmic-host',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors 'self' https://studio.plasmic.app https://*.plasmic.app",
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default nextConfig
