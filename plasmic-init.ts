@@ -1,6 +1,7 @@
 'use client'
 
 import { initPlasmicLoader } from '@plasmicapp/loader-nextjs'
+import { registerAll as registerSanityComponents } from '@plasmicpkgs/plasmic-sanity-io'
 import { AnimatedSection } from './components/code-components/AnimatedSection'
 import { FAQAccordion } from './components/code-components/FAQAccordion'
 import { HeroSection } from './components/code-components/HeroSection'
@@ -158,3 +159,8 @@ PLASMIC.registerComponent(FAQAccordion, {
   },
   importPath: './components/code-components/FAQAccordion',
 })
+
+// ─── Sanity integration ───────────────────────────────────────────────────────
+// Registers SanityCredentialsProvider, SanityFetcher, and SanityField
+// so Plasmic Studio can query Sanity data directly in the visual editor.
+registerSanityComponents(PLASMIC)
