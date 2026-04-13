@@ -1,6 +1,5 @@
-import { ComponentRenderData, PlasmicComponent, PlasmicRootProvider } from '@plasmicapp/loader-nextjs'
 import { notFound } from 'next/navigation'
-import { PLASMIC } from '@/plasmic-init'
+import { PLASMIC } from '@/plasmic-init-server'
 import { sanityFetch } from '@/sanity/lib/live'
 import {
   allProgramsQuery,
@@ -9,6 +8,7 @@ import {
   faqByCategoryQuery,
 } from '@/sanity/lib/queries'
 import type { SanityFAQItem, SanityProgram, SanityTeamMember, SanityTestimonial } from '@/sanity/lib/types'
+import { PlasmicPage } from './plasmic-page'
 
 export const revalidate = 60
 
@@ -25,11 +25,12 @@ export default async function CatchallPage({ params }: CatchallProps) {
   const { catchall } = await params
   const plasmicPath = '/' + (catchall?.join('/') ?? '')
 
-  // Fetch Plasmic page data
-  const plasmicData: ComponentRenderData | null = await PLASMIC.maybeFetchComponentData(plasmicPath)
+  // Skip root path — handled by app/page.tsx
+  if (plasmicPath === '/') notFound()
+
+  const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath)
   if (!plasmicData) notFound()
 
-  // Pre-fetch all Sanity data needed for code components on this page
   const [programs, teamMembers, testimonials, faqs] = await Promise.all([
     sanityFetch<SanityProgram[]>({ query: allProgramsQuery }),
     sanityFetch<SanityTeamMember[]>({ query: featuredTeamQuery }),
@@ -38,17 +39,13 @@ export default async function CatchallPage({ params }: CatchallProps) {
   ])
 
   return (
-    <PlasmicRootProvider loader={PLASMIC} prefetchedData={plasmicData}>
-      <PlasmicComponent
-        component={plasmicPath}
-        componentProps={{
-          // Pass Sanity data into registered code components
-          ProgramsGrid: { programs: programs.data ?? [] },
-          TeamGrid: { members: teamMembers.data ?? [] },
-          TestimonialCarousel: { testimonials: testimonials.data ?? [] },
-          FAQAccordion: { faqs: faqs.data ?? [] },
-        }}
-      />
-    </PlasmicRootProvider>
+    <PlasmicPage
+      plasmicData={plasmicData}
+      plasmicPath={plasmicPath}
+      programs={programs.data ?? []}
+      teamMembers={teamMembers.data ?? []}
+      testimonials={testimonials.data ?? []}
+      faqs={faqs.data ?? []}
+    />
   )
 }

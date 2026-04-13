@@ -28,7 +28,6 @@ export default async function HomePage() {
 
       <StatsCounter />
 
-      {/* Programs section */}
       <div className="bg-white">
         <AnimatedSection className="mx-auto max-w-6xl px-6 pt-20 text-center">
           <span className="text-sm font-semibold uppercase tracking-widest text-[#007F79]">
@@ -44,19 +43,16 @@ export default async function HomePage() {
         <ProgramsGrid programs={programs.data ?? []} />
       </div>
 
-      {/* Testimonials */}
       {(testimonials.data?.length ?? 0) > 0 && (
         <TestimonialCarousel testimonials={testimonials.data ?? []} />
       )}
 
-      {/* Team section */}
       {(team.data?.length ?? 0) > 0 && (
         <div className="bg-[#F9FAFB]">
           <TeamGrid members={team.data ?? []} />
         </div>
       )}
 
-      {/* How it works */}
       <section className="mx-auto max-w-5xl px-6 py-20">
         <AnimatedSection className="text-center">
           <span className="text-sm font-semibold uppercase tracking-widest text-[#007F79]">
@@ -84,7 +80,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* FAQ */}
       {(faqs.data?.length ?? 0) > 0 && (
         <div className="bg-[#F0FAFA]">
           <FAQAccordion faqs={faqs.data ?? []} />
