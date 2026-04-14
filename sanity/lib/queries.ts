@@ -79,6 +79,19 @@ export const faqByCategoryQuery = defineQuery(`
 
 // ─── Blog ─────────────────────────────────────────────────────────────────────
 
+export const recentBlogPostsQuery = defineQuery(`
+  *[_type == "blogPost"] | order(publishedAt desc) [0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    publishedAt,
+    excerpt,
+    categories,
+    mainImage { asset->{ url }, hotspot, crop },
+    author->{ name, role, photo { asset->{ url } } }
+  }
+`)
+
 export const allBlogPostsQuery = defineQuery(`
   *[_type == "blogPost"] | order(publishedAt desc) {
     _id,

@@ -3,7 +3,7 @@
 import { PlasmicComponent, PlasmicRootProvider } from '@plasmicapp/loader-nextjs'
 import type { ComponentRenderData } from '@plasmicapp/loader-nextjs'
 import { PLASMIC } from '@/plasmic-init'
-import type { SanityFAQItem, SanityProgram, SanityTeamMember, SanityTestimonial } from '@/sanity/lib/types'
+import type { SanityBlogPost, SanityFAQItem, SanityProgram, SanityTeamMember, SanityTestimonial } from '@/sanity/lib/types'
 
 interface PlasmicPageProps {
   plasmicData: ComponentRenderData
@@ -12,6 +12,7 @@ interface PlasmicPageProps {
   teamMembers: SanityTeamMember[]
   testimonials: SanityTestimonial[]
   faqs: SanityFAQItem[]
+  recentPosts: SanityBlogPost[]
 }
 
 export function PlasmicPage({
@@ -21,6 +22,7 @@ export function PlasmicPage({
   teamMembers,
   testimonials,
   faqs,
+  recentPosts,
 }: PlasmicPageProps) {
   return (
     <PlasmicRootProvider loader={PLASMIC} prefetchedData={plasmicData}>
@@ -31,6 +33,7 @@ export function PlasmicPage({
           TeamGrid: { members: teamMembers },
           TestimonialCarousel: { testimonials },
           FAQAccordion: { faqs },
+          RecentPosts: { posts: recentPosts },
         }}
       />
     </PlasmicRootProvider>

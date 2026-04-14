@@ -6,6 +6,7 @@ import { AnimatedSection } from './components/code-components/AnimatedSection'
 import { FAQAccordion } from './components/code-components/FAQAccordion'
 import { HeroSection } from './components/code-components/HeroSection'
 import { ProgramsGrid } from './components/code-components/ProgramCard'
+import { RecentPosts } from './components/code-components/RecentPosts'
 import { StatsCounter } from './components/code-components/StatsCounter'
 import { TeamGrid } from './components/code-components/TeamGrid'
 import { TestimonialCarousel } from './components/code-components/TestimonialCarousel'
@@ -159,6 +160,28 @@ PLASMIC.registerComponent(FAQAccordion, {
     title: { type: 'string', defaultValue: 'Frequently Asked Questions' },
   },
   importPath: './components/code-components/FAQAccordion',
+})
+
+PLASMIC.registerComponent(RecentPosts, {
+  name: 'RecentPosts',
+  description: 'Section showing cards for the 3 most recent blog posts (data from Sanity)',
+  props: {
+    posts: {
+      type: 'array',
+      itemType: {
+        type: 'object',
+        fields: {
+          _id: 'string',
+          title: 'string',
+          slug: 'string',
+          publishedAt: 'string',
+          excerpt: 'string',
+        },
+      },
+    },
+    title: { type: 'string', defaultValue: 'From Our Clinical Team' },
+  },
+  importPath: './components/code-components/RecentPosts',
 })
 
 // Note: SanityCredentialsProvider, SanityFetcher, and SanityField are registered
