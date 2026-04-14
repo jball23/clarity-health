@@ -199,6 +199,74 @@ async function seed() {
     },
   ]
 
+  // ─── Blog Posts ───────────────────────────────────────────────────────────
+  const blogPosts = [
+    {
+      _id: 'blog-understanding-cbt',
+      _type: 'blogPost',
+      title: 'How Cognitive Behavioral Therapy Actually Works',
+      slug: { current: 'how-cbt-works' },
+      publishedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+      author: { _type: 'reference', _ref: 'team-dr-sarah-chen' },
+      categories: ['Mental Health', 'Anxiety', 'Depression'],
+      excerpt: "CBT is one of the most researched therapies in existence — but what's actually happening in a session? Our clinical director explains the core principles and what to expect.",
+      body: [
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Cognitive Behavioral Therapy, or CBT, is one of the most widely studied and consistently effective treatments for anxiety, depression, and a wide range of other mental health conditions. Yet for many people beginning therapy, the inner workings of CBT remain a mystery. How does talking about your thoughts actually change how you feel?" }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "The Core Premise: Thoughts, Feelings, and Behaviors Are Linked" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "CBT is built on a deceptively simple insight: the way we interpret events — not the events themselves — determines how we feel and behave. When we're caught in patterns of depression or anxiety, those interpretations tend to be systematically distorted. We catastrophize. We overgeneralize. We mind-read. We discount positives." }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "A CBT therapist helps you notice these patterns in real time, then teaches you concrete skills to examine and challenge them. Over time, this restructuring changes not just your thinking but your emotional responses and behaviors as well." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "What Actually Happens in a Session" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "CBT sessions are collaborative and structured — more like working sessions than open-ended conversations. A typical session might begin with a mood check, review of the previous week's homework (yes, CBT has homework), and then focus on a specific situation that triggered distress." }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Your therapist will help you map out the thought-feeling-behavior sequence that occurred: What happened? What went through your mind? How did that thought make you feel? What did you do as a result? This Socratic process — guided discovery — is the engine of CBT. The therapist doesn't tell you your thoughts are wrong; they help you examine the evidence yourself." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "The Research Behind It" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "CBT has been studied in hundreds of randomized controlled trials. For depression and generalized anxiety disorder, it produces outcomes equivalent to medication — with more durable effects after treatment ends. The skills you develop become part of how you think, which means they continue to protect you long after therapy concludes." }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "At Clarity Health, CBT forms the foundation of our anxiety and depression program. Our therapists are trained to tailor the approach to your specific patterns, integrating elements from DBT and ACT as clinically indicated." }] },
+      ],
+    },
+    {
+      _id: 'blog-virtual-therapy-eating-disorders',
+      _type: 'blogPost',
+      title: 'Virtual Treatment for Eating Disorders: What the Research Says',
+      slug: { current: 'virtual-treatment-eating-disorders-research' },
+      publishedAt: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toISOString(),
+      author: { _type: 'reference', _ref: 'team-dr-sarah-chen' },
+      categories: ['Eating Disorders', 'Research'],
+      excerpt: 'Skepticism about virtual eating disorder care is understandable — these are serious conditions requiring close clinical monitoring. But the evidence is stronger than most people realize.',
+      body: [
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "When people first hear about virtual treatment for eating disorders, the reaction is often skepticism. Eating disorders are among the most medically serious psychiatric conditions — how can remote care be adequate? The concern is legitimate, and it deserves a direct, evidence-based answer." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "What the Studies Actually Show" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "The research on telehealth for eating disorders has accelerated significantly since 2020, and the findings are consistent: for patients who are medically stable, virtual delivery of Family-Based Treatment (FBT) and Cognitive Behavioral Therapy for Eating Disorders (CBT-E) produces outcomes equivalent to in-person care." }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "A 2022 randomized controlled trial published in the International Journal of Eating Disorders found that patients receiving FBT via telehealth achieved similar weight restoration and behavioral outcomes at 12-month follow-up compared to those receiving in-person FBT. Similar results have been replicated for CBT-E in adult populations with bulimia nervosa and binge eating disorder." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "The Real Advantage of Virtual Care" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Beyond equivalent outcomes, virtual care offers several genuine advantages for this population. Geographic access is the most obvious: specialized eating disorder programs are concentrated in major urban centers, leaving patients in rural and suburban areas with no realistic treatment options. Virtual care eliminates that barrier entirely." }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Family involvement is another area where telehealth often outperforms in-person care. FBT requires parents to be active participants in treatment — and coordinating in-person sessions around work schedules is a genuine barrier that virtual care removes. Our data shows higher caregiver session attendance in virtual FBT compared to in-person programs." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "When In-Person Care Is Necessary" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Virtual care is not appropriate for all patients. Medical instability, active suicidality, or lack of a safe home environment are indicators for higher levels of care — residential or PHP. Our clinical team conducts thorough assessments and maintains active medical monitoring for all virtual eating disorder patients. We have clear protocols for stepping up care when needed." }] },
+      ],
+    },
+    {
+      _id: 'blog-supporting-teen-mental-health',
+      _type: 'blogPost',
+      title: "Supporting Your Teenager's Mental Health: A Guide for Parents",
+      slug: { current: 'supporting-teen-mental-health-parents-guide' },
+      publishedAt: new Date(Date.now() - 35 * 24 * 60 * 60 * 1000).toISOString(),
+      author: { _type: 'reference', _ref: 'team-marcus-rivera' },
+      categories: ['Family Support', 'Mental Health'],
+      excerpt: "Watching your teenager struggle is one of the hardest experiences a parent can face. Knowing when to step in — and how — makes all the difference.",
+      body: [
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "The teenage years are developmentally turbulent even under ideal circumstances. Adolescents are navigating identity formation, social complexity, academic pressure, and the beginnings of adult autonomy — all while their prefrontal cortex is still years from full development. For parents, distinguishing normal developmental stress from something that warrants clinical attention is genuinely difficult." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "Warning Signs That Go Beyond 'Normal Teen Stuff'" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Duration and intensity are your best guides. Moodiness is normal; a persistently low or irritable mood lasting more than two weeks is not. Social withdrawal is common; complete disengagement from friends, family, and activities that used to bring joy is a flag. Changes in sleep, appetite, and academic performance — particularly sudden or dramatic changes — warrant attention." }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Any expression of hopelessness, worthlessness, or talk of not wanting to be alive requires immediate action. These are not phases. Do not wait to see if things improve on their own." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "How to Start the Conversation" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Timing matters. Don't try to talk when tensions are high or when your teen is on the defensive. Car rides — side by side rather than face to face — remove some of the intensity. Lead with observation rather than accusation: \"I've noticed you seem really tired lately\" lands very differently than \"You've been so withdrawn.\"" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Listen without immediately pivoting to problem-solving. Teenagers often just need to feel heard before they can accept help. Resist the urge to minimize (\"It's not that bad\") or catastrophize (\"I can't believe this is happening\"). Regulate yourself first — your teen is reading your emotional state as much as your words." }] },
+        { _type: 'block', style: 'h2', children: [{ _type: 'span', text: "What Treatment Actually Looks Like" }] },
+        { _type: 'block', style: 'normal', children: [{ _type: 'span', text: "Effective adolescent mental health care almost always involves the family. Individual therapy alone, while useful, is rarely sufficient when a teenager is struggling. Family-based approaches — where parents are active participants, not just drop-off drivers — consistently produce better outcomes. At Clarity Health, our adolescent program includes dedicated parent coaching sessions alongside individual teen therapy, because we know that recovery happens in the context of relationships." }] },
+      ],
+    },
+  ]
+
   // ─── Site Settings ─────────────────────────────────────────────────────────
   const settings = {
     _type: 'siteSettings',
@@ -226,6 +294,7 @@ async function seed() {
   for (const m of teamMembers) tx.createOrReplace({ ...m, _id: `team-${m.slug.current}` })
   for (const t of testimonials) tx.createOrReplace({ ...t, _id: `testimonial-${Math.random().toString(36).slice(2, 8)}` })
   for (const f of faqs) tx.createOrReplace({ ...f, _id: `faq-${Math.random().toString(36).slice(2, 8)}` })
+  for (const b of blogPosts) tx.createOrReplace(b)
   tx.createOrReplace(settings)
 
   await tx.commit({ autoGenerateArrayKeys: true })
@@ -234,6 +303,7 @@ async function seed() {
   console.log(`   ${teamMembers.length} team members`)
   console.log(`   ${testimonials.length} testimonials`)
   console.log(`   ${faqs.length} FAQ items`)
+  console.log(`   ${blogPosts.length} blog posts`)
   console.log('   1 site settings document\n')
   console.log('🎉 Done! Open your Sanity Studio to review the content.')
 }

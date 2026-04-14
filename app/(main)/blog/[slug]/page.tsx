@@ -1,4 +1,14 @@
 import type { Metadata } from 'next'
+import type { PortableTextBlock } from '@portabletext/types'
+
+function readingTime(body: PortableTextBlock[]): number {
+  const words = body
+    .filter((b) => b._type === 'block')
+    .flatMap((b) => (b.children as { text?: string }[] | undefined)?.map((c) => c.text ?? '') ?? [])
+    .join(' ')
+    .split(/\s+/).length
+  return Math.max(1, Math.round(words / 200))
+}
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -52,7 +62,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           )}
           <div className="text-sm">
             <p className="font-medium text-gray-900">{post.author?.name}</p>
-            <p className="text-gray-400">{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            <p className="text-gray-400">
+            {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            {post.body && <span> · {readingTime(post.body)} min read</span>}
+          </p>
           </div>
         </div>
       </AnimatedSection>
