@@ -151,6 +151,7 @@ PLASMIC.registerComponent(FAQAccordion, {
         fields: {
           _id: 'string',
           question: 'string',
+          answer: 'string',
           category: 'string',
         },
       },

@@ -8,7 +8,8 @@ import type { PortableTextBlock } from "@portabletext/types";
 interface FAQItem {
   _id: string;
   question: string;
-  answer: PortableTextBlock[];
+  // Sanity delivers PortableTextBlock[]; Plasmic Studio canvas passes a plain string
+  answer: PortableTextBlock[] | string;
   category: string;
 }
 
@@ -55,7 +56,9 @@ function FAQItemRow({
             className="overflow-hidden"
           >
             <div className="prose prose-sm max-w-none pb-5 text-gray-600">
-              <PortableText value={item.answer} />
+              {typeof item.answer === 'string'
+                ? <p>{item.answer}</p>
+                : <PortableText value={item.answer} />}
             </div>
           </motion.div>
         )}
