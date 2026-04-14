@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
 import { PLASMIC } from '@/plasmic-init-server'
 import { sanityFetch } from '@/sanity/lib/live'
 import {
@@ -14,6 +15,23 @@ export const revalidate = 60
 
 interface CatchallProps {
   params: Promise<{ catchall?: string[] }>
+}
+
+export async function generateMetadata({ params }: CatchallProps): Promise<Metadata> {
+  const { catchall } = await params
+  const plasmicPath = catchall ? '/' + catchall.join('/') : '/'
+  const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath)
+  if (!plasmicData) return {}
+
+  const page = plasmicData.entryCompMetas[0]
+  const title = page?.displayName
+  const description = (page?.metadata as Record<string, string> | undefined)?.description
+
+  return {
+    title,
+    description,
+    openGraph: { title, description },
+  }
 }
 
 export async function generateStaticParams() {
