@@ -15,7 +15,7 @@ interface TestimonialCarouselProps {
   testimonials: Testimonial[]
 }
 
-export function TestimonialCarousel({ testimonials }: TestimonialCarouselProps) {
+export function TestimonialCarousel({ testimonials = [] }: TestimonialCarouselProps) {
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(1)
 

@@ -54,7 +54,7 @@ function FAQItemRow({ item, isOpen, onToggle }: { item: FAQItem; isOpen: boolean
   )
 }
 
-export function FAQAccordion({ faqs, title = 'Frequently Asked Questions' }: FAQAccordionProps) {
+export function FAQAccordion({ faqs = [], title = 'Frequently Asked Questions' }: FAQAccordionProps) {
   const [openId, setOpenId] = useState<string | null>(null)
 
   return (

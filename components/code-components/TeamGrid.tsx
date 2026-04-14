@@ -62,7 +62,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
   )
 }
 
-export function TeamGrid({ members, title = 'Meet Our Clinical Team' }: TeamGridProps) {
+export function TeamGrid({ members = [], title = 'Meet Our Clinical Team' }: TeamGridProps) {
   return (
     <section className="mx-auto max-w-6xl px-6 py-20">
       {title && (
