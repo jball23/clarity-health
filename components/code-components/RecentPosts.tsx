@@ -28,14 +28,15 @@ export function RecentPosts({ posts = [], title = 'From Our Clinical Team' }: Re
 
   if (visible.length === 0) {
     return (
-      <section className="mx-auto max-w-6xl px-6 py-20">
+      <section className="w-full py-20">
         <p className="text-center text-gray-400">No recent posts yet.</p>
       </section>
     )
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
+    <section className="w-full py-20">
+      <div className="mx-auto max-w-6xl px-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -112,6 +113,7 @@ export function RecentPosts({ posts = [], title = 'From Our Clinical Team' }: Re
             </Link>
           </motion.div>
         ))}
+      </div>
       </div>
     </section>
   )

@@ -74,7 +74,8 @@ export function FAQAccordion({
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
-    <section className="mx-auto max-w-3xl px-6 py-20 w-screen">
+    <section className="w-full py-20">
+      <div className="mx-auto max-w-3xl px-6">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -100,6 +101,7 @@ export function FAQAccordion({
           />
         ))}
       </motion.div>
+      </div>
     </section>
   );
 }

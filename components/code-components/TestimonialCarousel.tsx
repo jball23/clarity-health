@@ -39,8 +39,8 @@ export function TestimonialCarousel({ testimonials = [] }: TestimonialCarouselPr
   const xOffset = direction * 40
 
   return (
-    <section className="bg-[#007F79] px-6 py-20">
-      <div className="mx-auto max-w-3xl text-center">
+    <section className="w-full bg-[#007F79] py-20">
+      <div className="mx-auto max-w-3xl px-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}

@@ -64,21 +64,23 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
 
 export function TeamGrid({ members = [], title = 'Meet Our Clinical Team' }: TeamGridProps) {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20">
-      {title && (
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-12 text-center text-3xl font-bold text-gray-900"
-        >
-          {title}
-        </motion.h2>
-      )}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {members.map((m, i) => (
-          <MemberCard key={m._id} member={m} index={i} />
-        ))}
+    <section className="w-full py-20">
+      <div className="mx-auto max-w-6xl px-6">
+        {title && (
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-12 text-center text-3xl font-bold text-gray-900"
+          >
+            {title}
+          </motion.h2>
+        )}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {members.map((m, i) => (
+            <MemberCard key={m._id} member={m} index={i} />
+          ))}
+        </div>
       </div>
     </section>
   )

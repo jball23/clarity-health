@@ -50,7 +50,7 @@ function Counter({ value, suffix = "", prefix = "" }: Omit<Stat, "label">) {
 
 export function StatsCounter({ stats = DEFAULT_STATS }: StatsCounterProps) {
   return (
-    <section className="bg-[#F0FAFA] py-16 w-screen">
+    <section className="w-full bg-[#F0FAFA] py-16">
       <div className="mx-auto grid max-w-5xl grid-cols-2 gap-8 px-6 md:grid-cols-4">
         {stats.map((stat, i) => (
           <motion.div

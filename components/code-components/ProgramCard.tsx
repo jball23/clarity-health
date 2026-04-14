@@ -77,11 +77,13 @@ function ProgramCard({ program, index }: { program: Program; index: number }) {
 
 export function ProgramsGrid({ programs = [] }: ProgramsGridProps) {
   return (
-    <section className="mx-auto max-w-6xl px-6 py-20 w-screen">
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <section className="w-full py-20">
+      <div className="mx-auto max-w-6xl px-6">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {programs.map((p, i) => (
           <ProgramCard key={p._id} program={p} index={i} />
         ))}
+      </div>
       </div>
     </section>
   );
