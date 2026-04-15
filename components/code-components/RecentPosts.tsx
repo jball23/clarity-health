@@ -55,7 +55,7 @@ export function RecentPosts({ posts = [], title = 'From Our Clinical Team' }: Re
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((post, i) => (
           <motion.div
-            key={post._id}
+            key={post._id ?? post.slug ?? i}
             initial={{ opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}

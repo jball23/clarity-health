@@ -81,7 +81,7 @@ export function ProgramsGrid({ programs = [] }: ProgramsGridProps) {
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {programs.map((p, i) => (
-            <ProgramCard key={p._id} program={p} index={i} />
+            <ProgramCard key={p._id ?? p.title ?? i} program={p} index={i} />
           ))}
         </div>
       </div>

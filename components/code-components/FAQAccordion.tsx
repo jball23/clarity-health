@@ -94,7 +94,7 @@ export function FAQAccordion({
       >
         {faqs.map((item) => (
           <FAQItemRow
-            key={item._id}
+            key={item._id ?? item.question}
             item={item}
             isOpen={openId === item._id}
             onToggle={() => setOpenId(openId === item._id ? null : item._id)}

@@ -78,7 +78,7 @@ export function TeamGrid({ members = [], title = 'Meet Our Clinical Team' }: Tea
         )}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {members.map((m, i) => (
-            <MemberCard key={m._id} member={m} index={i} />
+            <MemberCard key={m._id ?? m.name ?? i} member={m} index={i} />
           ))}
         </div>
       </div>
