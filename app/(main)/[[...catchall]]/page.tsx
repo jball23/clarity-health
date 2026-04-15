@@ -1,15 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { PLASMIC } from '@/plasmic-init-server'
-import { sanityFetch } from '@/sanity/lib/live'
-import {
-  allProgramsQuery,
-  featuredTeamQuery,
-  featuredTestimonialsQuery,
-  faqByCategoryQuery,
-  recentBlogPostsQuery,
-} from '@/sanity/lib/queries'
-import type { SanityBlogPost, SanityFAQItem, SanityProgram, SanityTeamMember, SanityTestimonial } from '@/sanity/lib/types'
 import { PlasmicPage } from './plasmic-page'
 
 export const revalidate = 60
@@ -49,23 +40,5 @@ export default async function CatchallPage({ params }: CatchallProps) {
   const plasmicData = await PLASMIC.maybeFetchComponentData(plasmicPath)
   if (!plasmicData) notFound()
 
-  const [programs, teamMembers, testimonials, faqs, recentPosts] = await Promise.all([
-    sanityFetch<SanityProgram[]>({ query: allProgramsQuery }),
-    sanityFetch<SanityTeamMember[]>({ query: featuredTeamQuery }),
-    sanityFetch<SanityTestimonial[]>({ query: featuredTestimonialsQuery }),
-    sanityFetch<SanityFAQItem[]>({ query: faqByCategoryQuery, params: { category: '' } }),
-    sanityFetch<SanityBlogPost[]>({ query: recentBlogPostsQuery }),
-  ])
-
-  return (
-    <PlasmicPage
-      plasmicData={plasmicData}
-      plasmicPath={plasmicPath}
-      programs={programs.data ?? []}
-      teamMembers={teamMembers.data ?? []}
-      testimonials={testimonials.data ?? []}
-      faqs={faqs.data ?? []}
-      recentPosts={recentPosts.data ?? []}
-    />
-  )
+  return <PlasmicPage plasmicData={plasmicData} plasmicPath={plasmicPath} />
 }

@@ -19,6 +19,25 @@ const client = createClient({
   useCdn: false,
 })
 
+// ─── Image upload helper ──────────────────────────────────────────────────────
+// Fetches an image from a URL and uploads it to Sanity, returning a proper
+// image reference that GROQ can resolve via asset->.
+
+type SanityImageRef = { _type: 'image'; asset: { _type: 'reference'; _ref: string } }
+
+async function uploadImage(url: string, filename: string): Promise<SanityImageRef | undefined> {
+  try {
+    const res = await fetch(url)
+    if (!res.ok) return undefined
+    const buf = Buffer.from(await res.arrayBuffer())
+    const contentType = res.headers.get('content-type') ?? 'image/jpeg'
+    const asset = await client.assets.upload('image', buf, { filename, contentType })
+    return { _type: 'image', asset: { _type: 'reference', _ref: asset._id } }
+  } catch {
+    return undefined
+  }
+}
+
 async function seed() {
   console.log('🌱 Seeding Clarity Health demo content...\n')
 
@@ -199,10 +218,29 @@ async function seed() {
     },
   ]
 
+  // ─── Blog Images ──────────────────────────────────────────────────────────
+  // Upload images to Sanity so they become proper assets (resolved by GROQ as asset->).
+  console.log('📸 Uploading blog images...')
+  const [cbtImage, edImage, teenImage] = await Promise.all([
+    uploadImage(
+      'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&h=630&fit=crop&q=80',
+      'blog-cbt.jpg',
+    ),
+    uploadImage(
+      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=630&fit=crop&q=80',
+      'blog-virtual-care.jpg',
+    ),
+    uploadImage(
+      'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&h=630&fit=crop&q=80',
+      'blog-teen-mental-health.jpg',
+    ),
+  ])
+
   // ─── Blog Posts ───────────────────────────────────────────────────────────
   const blogPosts = [
     {
       _id: 'blog-understanding-cbt',
+      ...(cbtImage && { mainImage: cbtImage }),
       _type: 'blogPost',
       title: 'How Cognitive Behavioral Therapy Actually Works',
       slug: { current: 'how-cbt-works' },
@@ -225,6 +263,7 @@ async function seed() {
     },
     {
       _id: 'blog-virtual-therapy-eating-disorders',
+      ...(edImage && { mainImage: edImage }),
       _type: 'blogPost',
       title: 'Virtual Treatment for Eating Disorders: What the Research Says',
       slug: { current: 'virtual-treatment-eating-disorders-research' },
@@ -246,6 +285,7 @@ async function seed() {
     },
     {
       _id: 'blog-supporting-teen-mental-health',
+      ...(teenImage && { mainImage: teenImage }),
       _type: 'blogPost',
       title: "Supporting Your Teenager's Mental Health: A Guide for Parents",
       slug: { current: 'supporting-teen-mental-health-parents-guide' },
