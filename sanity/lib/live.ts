@@ -8,7 +8,10 @@ const fetchClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: true,
+  // CDN caches query results at the edge — fast in production but serves stale
+  // data for minutes after writes. Disable in development so content changes
+  // show up immediately without waiting for the edge cache to expire.
+  useCdn: process.env.NODE_ENV === 'production',
   stega: {
     studioUrl: '/studio',
     enabled: process.env.NEXT_PUBLIC_VERCEL_ENV === 'preview',
