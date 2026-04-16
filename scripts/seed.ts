@@ -99,50 +99,6 @@ async function seed() {
     },
   ]
 
-  // ─── Team Members ─────────────────────────────────────────────────────────
-  const teamMembers = [
-    {
-      _type: 'teamMember',
-      name: 'Dr. Sarah Chen',
-      slug: { current: 'dr-sarah-chen' },
-      role: 'Clinical Director',
-      credentials: 'PhD, ABPP',
-      specialties: ['Eating Disorders', 'Anxiety & Depression', 'Family Therapy'],
-      bio: 'Dr. Chen brings 15 years of clinical experience specializing in eating disorder treatment and evidence-based care. She completed her fellowship at Stanford and has published extensively on FBT outcomes.',
-      featured: true,
-    },
-    {
-      _type: 'teamMember',
-      name: 'Marcus Rivera, LCSW',
-      slug: { current: 'marcus-rivera' },
-      role: 'Lead Therapist',
-      credentials: 'LCSW, CEDS',
-      specialties: ['Trauma & PTSD', 'OCD', 'Adolescent Mental Health'],
-      bio: 'Marcus specializes in trauma-informed care and EMDR therapy. He has worked with adolescents and young adults for over a decade, with a focus on resilience-building.',
-      featured: true,
-    },
-    {
-      _type: 'teamMember',
-      name: 'Dr. Priya Nair',
-      slug: { current: 'dr-priya-nair' },
-      role: 'Psychiatrist',
-      credentials: 'MD, Board Certified',
-      specialties: ['Anxiety & Depression', 'Eating Disorders', 'Substance Use'],
-      bio: 'Dr. Nair is a board-certified psychiatrist with expertise in medication management for mood and eating disorders. She trained at UCSF and Johns Hopkins.',
-      featured: true,
-    },
-    {
-      _type: 'teamMember',
-      name: 'Jordan Wilder, RD',
-      slug: { current: 'jordan-wilder' },
-      role: 'Registered Dietitian',
-      credentials: 'RD, CEDS-S',
-      specialties: ['Eating Disorders', 'Family Therapy'],
-      bio: 'Jordan is a certified eating disorder specialist dietitian who takes a non-diet, weight-inclusive approach to nutrition therapy.',
-      featured: true,
-    },
-  ]
-
   // ─── Testimonials ─────────────────────────────────────────────────────────
   const testimonials = [
     {
@@ -218,23 +174,69 @@ async function seed() {
     },
   ]
 
-  // ─── Blog Images ──────────────────────────────────────────────────────────
-  // Upload images to Sanity so they become proper assets (resolved by GROQ as asset->).
-  console.log('📸 Uploading blog images...')
-  const [cbtImage, edImage, teenImage] = await Promise.all([
-    uploadImage(
-      'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&h=630&fit=crop&q=80',
-      'blog-cbt.jpg',
-    ),
-    uploadImage(
-      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=630&fit=crop&q=80',
-      'blog-virtual-care.jpg',
-    ),
-    uploadImage(
-      'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&h=630&fit=crop&q=80',
-      'blog-teen-mental-health.jpg',
-    ),
+  // ─── Image uploads ────────────────────────────────────────────────────────
+  // All uploads run in parallel before building the documents that reference them.
+  console.log('📸 Uploading images...')
+  const [
+    sarahPhoto, marcusPhoto, priyaPhoto, jordanPhoto,
+    cbtImage, edImage, teenImage,
+  ] = await Promise.all([
+    uploadImage('https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=600&fit=crop&q=80', 'headshot-sarah-chen.jpg'),
+    uploadImage('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&q=80', 'headshot-marcus-rivera.jpg'),
+    uploadImage('https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=600&h=600&fit=crop&q=80', 'headshot-priya-nair.jpg'),
+    uploadImage('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=600&fit=crop&q=80', 'headshot-jordan-wilder.jpg'),
+    uploadImage('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1200&h=630&fit=crop&q=80', 'blog-cbt.jpg'),
+    uploadImage('https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&h=630&fit=crop&q=80', 'blog-virtual-care.jpg'),
+    uploadImage('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&h=630&fit=crop&q=80', 'blog-teen-mental-health.jpg'),
   ])
+
+  // ─── Team Members ─────────────────────────────────────────────────────────
+  const teamMembers = [
+    {
+      _type: 'teamMember',
+      name: 'Dr. Sarah Chen',
+      slug: { current: 'dr-sarah-chen' },
+      role: 'Clinical Director',
+      credentials: 'PhD, ABPP',
+      specialties: ['Eating Disorders', 'Anxiety & Depression', 'Family Therapy'],
+      bio: 'Dr. Chen brings 15 years of clinical experience specializing in eating disorder treatment and evidence-based care. She completed her fellowship at Stanford and has published extensively on FBT outcomes.',
+      featured: true,
+      ...(sarahPhoto && { photo: sarahPhoto }),
+    },
+    {
+      _type: 'teamMember',
+      name: 'Marcus Rivera, LCSW',
+      slug: { current: 'marcus-rivera' },
+      role: 'Lead Therapist',
+      credentials: 'LCSW, CEDS',
+      specialties: ['Trauma & PTSD', 'OCD', 'Adolescent Mental Health'],
+      bio: 'Marcus specializes in trauma-informed care and EMDR therapy. He has worked with adolescents and young adults for over a decade, with a focus on resilience-building.',
+      featured: true,
+      ...(marcusPhoto && { photo: marcusPhoto }),
+    },
+    {
+      _type: 'teamMember',
+      name: 'Dr. Priya Nair',
+      slug: { current: 'dr-priya-nair' },
+      role: 'Psychiatrist',
+      credentials: 'MD, Board Certified',
+      specialties: ['Anxiety & Depression', 'Eating Disorders', 'Substance Use'],
+      bio: 'Dr. Nair is a board-certified psychiatrist with expertise in medication management for mood and eating disorders. She trained at UCSF and Johns Hopkins.',
+      featured: true,
+      ...(priyaPhoto && { photo: priyaPhoto }),
+    },
+    {
+      _type: 'teamMember',
+      name: 'Jordan Wilder, RD',
+      slug: { current: 'jordan-wilder' },
+      role: 'Registered Dietitian',
+      credentials: 'RD, CEDS-S',
+      specialties: ['Eating Disorders', 'Family Therapy'],
+      bio: 'Jordan is a certified eating disorder specialist dietitian who takes a non-diet, weight-inclusive approach to nutrition therapy.',
+      featured: true,
+      ...(jordanPhoto && { photo: jordanPhoto }),
+    },
+  ]
 
   // ─── Blog Posts ───────────────────────────────────────────────────────────
   const blogPosts = [
