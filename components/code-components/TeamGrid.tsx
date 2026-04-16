@@ -57,17 +57,16 @@ function MemberCard({ member, index }: { member: SanityTeamMember; index: number
 export function TeamGrid({ members = [], title = 'Meet Our Clinical Team' }: TeamGridProps) {
   const [fetched, setFetched] = useState<SanityTeamMember[]>([])
 
-  // When no members are passed (e.g. Plasmic Studio canvas), self-fetch from the API
-  // so the canvas shows real data instead of crashing on empty placeholder items.
+  // Always fetch live data from Sanity. The `members` prop (Plasmic's saved
+  // defaultValue) is used only as a placeholder while the fetch is in flight.
   useEffect(() => {
-    if (members.length > 0) return
     fetch('/api/team-members')
       .then((r) => r.json())
       .then((data) => setFetched(data))
       .catch(() => {})
-  }, [members.length])
+  }, [])
 
-  const visible = members.length > 0 ? members : fetched
+  const visible = fetched.length > 0 ? fetched : members
 
   return (
     <section className="w-full py-20">
