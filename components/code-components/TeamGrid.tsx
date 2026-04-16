@@ -2,23 +2,15 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-
-interface TeamMember {
-  _id: string
-  name: string
-  slug: string
-  role: string
-  credentials?: string
-  specialties?: string[]
-  photo?: { asset: { url: string }; hotspot?: { x: number; y: number } }
-}
+import { useEffect, useState } from 'react'
+import type { SanityTeamMember } from '@/sanity/lib/types'
 
 interface TeamGridProps {
-  members: TeamMember[]
+  members?: SanityTeamMember[]
   title?: string
 }
 
-function MemberCard({ member, index }: { member: TeamMember; index: number }) {
+function MemberCard({ member, index }: { member: SanityTeamMember; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 28 }}
@@ -37,8 +29,8 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
           />
         </div>
       ) : (
-        <div className="flex h-64 items-center justify-center bg-gradient-to-br from-[#007F79] to-[#005F5A] text-5xl font-bold text-white/30">
-          {member.name[0]}
+        <div className="flex h-64 items-center justify-center bg-linear-to-br from-[#007F79] to-[#005F5A] text-5xl font-bold text-white/30">
+          {member.name?.[0] ?? '?'}
         </div>
       )}
 
@@ -63,6 +55,20 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
 }
 
 export function TeamGrid({ members = [], title = 'Meet Our Clinical Team' }: TeamGridProps) {
+  const [fetched, setFetched] = useState<SanityTeamMember[]>([])
+
+  // When no members are passed (e.g. Plasmic Studio canvas), self-fetch from the API
+  // so the canvas shows real data instead of crashing on empty placeholder items.
+  useEffect(() => {
+    if (members.length > 0) return
+    fetch('/api/team-members')
+      .then((r) => r.json())
+      .then((data) => setFetched(data))
+      .catch(() => {})
+  }, [members.length])
+
+  const visible = members.length > 0 ? members : fetched
+
   return (
     <section className="w-full py-20">
       <div className="mx-auto max-w-6xl px-6">
@@ -76,11 +82,15 @@ export function TeamGrid({ members = [], title = 'Meet Our Clinical Team' }: Tea
             {title}
           </motion.h2>
         )}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {members.map((m, i) => (
-            <MemberCard key={m._id ?? m.name ?? i} member={m} index={i} />
-          ))}
-        </div>
+        {visible.length === 0 ? (
+          <p className="py-20 text-center text-gray-400">No team members yet.</p>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {visible.map((m, i) => (
+              <MemberCard key={m._id ?? m.name ?? i} member={m} index={i} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
