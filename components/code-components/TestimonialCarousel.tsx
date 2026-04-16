@@ -12,30 +12,48 @@ interface Testimonial {
 }
 
 interface TestimonialCarouselProps {
-  testimonials: Testimonial[]
+  testimonials?: Testimonial[]
 }
 
 export function TestimonialCarousel({ testimonials = [] }: TestimonialCarouselProps) {
+  const [fetched, setFetched] = useState<Testimonial[]>([])
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(1)
 
+  // When no testimonials are passed (e.g. Plasmic Studio canvas), self-fetch from the API.
   useEffect(() => {
-    if (testimonials.length <= 1) return
+    if (testimonials.length > 0) return
+    fetch('/api/testimonials')
+      .then((r) => r.json())
+      .then((data) => setFetched(data))
+      .catch(() => {})
+  }, [testimonials.length])
+
+  const visible = testimonials.length > 0 ? testimonials : fetched
+
+  useEffect(() => {
+    if (visible.length <= 1) return
     const id = setInterval(() => {
       setDirection(1)
-      setCurrent((c) => (c + 1) % testimonials.length)
+      setCurrent((c) => (c + 1) % visible.length)
     }, 6000)
     return () => clearInterval(id)
-  }, [testimonials.length])
+  }, [visible.length])
 
   function go(index: number) {
     setDirection(index > current ? 1 : -1)
     setCurrent(index)
   }
 
-  if (!testimonials.length) return null
+  if (!visible.length) {
+    return (
+      <section className="w-full bg-[#007F79] py-20">
+        <p className="text-center text-white/50">No testimonials yet.</p>
+      </section>
+    )
+  }
 
-  const t = testimonials[current]
+  const t = visible[current]
   const xOffset = direction * 40
 
   return (
@@ -89,9 +107,9 @@ export function TestimonialCarousel({ testimonials = [] }: TestimonialCarouselPr
         </AnimatePresence>
 
         {/* Dot navigation */}
-        {testimonials.length > 1 && (
+        {visible.length > 1 && (
           <div className="mt-10 flex justify-center gap-2">
-            {testimonials.map((_, i) => (
+            {visible.map((_, i) => (
               <button
                 key={i}
                 onClick={() => go(i)}
