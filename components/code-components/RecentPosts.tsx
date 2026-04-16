@@ -14,17 +14,17 @@ interface RecentPostsProps {
 export function RecentPosts({ posts = [], title = 'From Our Clinical Team' }: RecentPostsProps) {
   const [fetched, setFetched] = useState<SanityBlogPost[]>([])
 
-  // When no posts are passed via server props (e.g. inside Plasmic Studio canvas),
-  // self-fetch from the API so the canvas shows real data.
+  // Always fetch live data from Sanity — this component should always show the
+  // latest posts. The `posts` prop (usually Plasmic's saved defaultValue) is used
+  // only as a placeholder while the fetch is in flight.
   useEffect(() => {
-    if (posts.length > 0) return
     fetch('/api/recent-posts')
       .then((r) => r.json())
       .then((data) => setFetched(data))
       .catch(() => {})
-  }, [posts.length])
+  }, [])
 
-  const visible = (posts.length > 0 ? posts : fetched).slice(0, 3)
+  const visible = (fetched.length > 0 ? fetched : posts).slice(0, 3)
 
   if (visible.length === 0) {
     return (
